@@ -1,0 +1,29 @@
+.MyComponent {
+  --background-color: red;
+  --color: white;
+  --padding: 1em;
+
+  &__test {
+    background-color: var(--background-color);
+    color: var(--color);
+    padding: var(--padding);
+  }
+
+  &__test2 {
+    background-color: var(--background-color);
+    color: var(--color);
+    padding: var(--padding);
+  }
+
+  &__myComponent {
+    background-color: var(--background-color);
+    color: var(--color);
+    padding: var(--padding);
+  }
+
+  &--test {
+    background-color: var(--background-color);
+    color: var(--color);
+    padding: var(--padding);
+  }
+}
