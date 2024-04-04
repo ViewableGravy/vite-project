@@ -4,9 +4,12 @@ import viteLogo from '/vite.svg'
 import './App.scss'
 
 import { MyComponent } from './myComponent/myComponent.tsx'
+import { styleApp } from './applyStyles.ts'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  styleApp({}, "react")
 
   return (
     <>  
