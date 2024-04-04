@@ -1,28 +1,12 @@
+/***** BASE IMPORTS *****/
 import './_MyComponent.scss';
+
+/***** UTILITIES *****/
 import { styleMyComponent } from './applyStyles';
 
-type TClassNames = 
-  | "MyComponent"
-  | "MyComponent__test"
-  | "MyComponent__test2"
-  | "MyComponent__myComponent"
-  | "MyComponent--test"
-
-type Test = {
-  MyComponent?: boolean;
-  MyComponent__test?: boolean;
-  MyComponent__test2?: boolean;
-  MyComponent__myComponent?: boolean;
-  "MyComponent--test"?: boolean;
-};
-
-const example = <T extends Test | TClassNames>( test: T ) => ({
-  "yes": false
-})
-
-example({ "MyComponent--test": false, test: false })
-
+/***** COMPONENT START *****/
 export const MyComponent = () => {
+  /***** RENDER HELPERS *****/
   const styles = {
     outer: styleMyComponent({
       "--background-color": "red",
@@ -30,11 +14,14 @@ export const MyComponent = () => {
       "--padding": "10px"
     }, "MyComponent")
   }
-  
 
+  /***** RENDER *****/
   return (
     <div {...styles.outer}>
-
+      <p>
+        Markup should represent structure, not style. Minimise the use of
+        multi-line classNames or inline styles within the JSX.
+      </p>
     </div>
   )
 };
