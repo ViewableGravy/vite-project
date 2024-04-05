@@ -2,7 +2,7 @@
 import './_MyComponent.scss';
 
 /***** UTILITIES *****/
-import { styleMyComponent } from './applyStyles';
+import { styleMyComponent } from './_MyComponent.autogen';
 
 /***** COMPONENT START *****/
 export const MyComponent = () => {
@@ -11,8 +11,11 @@ export const MyComponent = () => {
     outer: styleMyComponent({
       "--background-color": "red",
       "--color": "blue",
-      "--padding": "10px"
-    }, "MyComponent")
+      "--padding": "10px",
+    }, {
+      "MyComponent__myComponent": true,
+      "MyComponent--test": true,
+    })
   }
 
   /***** RENDER *****/

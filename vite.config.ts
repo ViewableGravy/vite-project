@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import { kawaiiScssVarsPlugin } from './vite/scss-plugin'
+import { scssTypescriptGenerator } from 'scss-typescript-generator/src'
 import Inspect from 'vite-plugin-inspect'
 
 
@@ -10,6 +10,6 @@ export default defineConfig({
   plugins: [
     Inspect(),
     react(), 
-    kawaiiScssVarsPlugin()
+    scssTypescriptGenerator()
   ],
 })

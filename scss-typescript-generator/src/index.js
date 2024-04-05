@@ -1,34 +1,28 @@
-// kawaii-scss-vars-plugin.js
-
+/***** BASE IMPORTS *****/
 import fs from 'fs';
 import path from 'path';
 import sass from 'sass';
 
 function extractCssVariables(content) {
-  // UwU Here, we're using a regex to find CSS variables in the SCSS content!
   const regex = /(--[a-zA-Z0-9_-]+)\s*:/g;
   const matches = content.matchAll(regex);
   const variables = {};
 
   for (const match of matches) {
     const variableName = match[1];
-    variables[variableName] = ''; // You can put a default value or leave it empty~
+    variables[variableName] = '';
   }
 
   return variables;
 }
 
 function extractFirstCssClassName(content) {
-  // UwU Here, we're using a regex to find the first CSS class name in the SCSS content!
   const regex = /\.([a-zA-Z0-9_-]+)/;
   const matches = content.match(regex);
 
   return matches ? matches[1] : '';
 }
 
-/**
- * Extract all class names from the CSS content
- */
 function extractAllClassNames(content) {
   const regex = /\.([\w-]+)/g;
   const matches = content.matchAll(regex);
@@ -47,7 +41,7 @@ function extractAllClassNames(content) {
       continue;
     }
 
-    // skip if the class name is a unit (e.g. 1px, 2em, 3rem, etc.)
+    // skip if the class name (not actually a className) is a unit (e.g. 1px, 2em, 3rem, etc.)
     if (/(em|px|rem|vh|vw|ch|ex|cm|mm|in|pt|pc|vmin|vmax|deg|grad|rad|turn|s|ms|Hz|kHz|%|fr|dpi|dpcm|dppx)$/.test(className)) {
       continue;
     }
@@ -96,33 +90,32 @@ export const style${fileName}: ${typeName} = (style, className = "${className}")
   return content;
 }
 
-export function kawaiiScssVarsPlugin() {
+/**
+ * Generates a vite plugin that generates TypeScript files from SCSS files. The TypeScript files
+ * will contain a function that can be used to style React components and provides intellisense
+ * for CSS variables as well as possible classNames that can be applied
+ */
+export function scssTypescriptGenerator() {
   return {
-    name: 'kawaii-scss-vars-plugin',
-    // UwU The transform hook allows us to modify the content of each file!
+    name: 'scss-typescript-generator',
     async transform(code, id) {
       if (id.endsWith('.scss')) {
-        const result = sass.renderSync({ data: code }); // Compile SCSS to CSS
-        const variables = extractCssVariables(result.css.toString());
-        const className = extractFirstCssClassName(result.css.toString());
-        const AllClassnames = extractAllClassNames(result.css.toString());
-
-        console.log(className)
-
+        const cssString = sass.renderSync({ data: code }).css.toString();
+        const variables = extractCssVariables(cssString);
+        const className = extractFirstCssClassName(cssString);
+        const AllClassnames = extractAllClassNames(cssString);
         const directory = path.dirname(id);
-        const functionName = 'applyStyles'; // You can change this if you want!
-        const fileName = id
+        const functionName = id
           .replace('.scss', '')
           .split('/')
           .pop()
           .replace(/^_/, '');
+        const fileName = `_${functionName}.autogen.ts`;
+        const functionContent = generateFunction(variables, functionName, className, AllClassnames);
+        const outputFile = path.join(directory, fileName);
 
-        const functionContent = generateFunction(variables, fileName, className, AllClassnames);
-        const outputFile = path.join(directory, `${functionName}.ts`);
+        fs.writeFileSync(outputFile, functionContent);
 
-        fs.writeFileSync(outputFile, functionContent); // Write the function file
-
-        // UwU We return the modified code without any changes~
         return {
           code,
           map: null,
