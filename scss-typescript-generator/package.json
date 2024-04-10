@@ -2,6 +2,10 @@
   "name": "scss-typescript-generator",
   "module": "index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ViewableGravy/vite-project"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
