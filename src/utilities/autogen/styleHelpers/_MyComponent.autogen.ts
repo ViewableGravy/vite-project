@@ -27,10 +27,14 @@ type TStyledMyComponent = (args: TStyledMyComponentProps, className?: TClassName
   className: string
 };
 
+type TClassNamesMyComponent = (className?: TClassNamesObject | TClassNames) => string;
+
 /***** STYLED FUNCTION *****/
 //@ts-ignore
 export const styleMyComponent: TStyledMyComponent = (style, className = "MyComponent") => ({ 
   style, 
   //@ts-ignore
-  className: typeof className === 'object' ? classNames(className) : className
+  className: classNames(className)
 });
+
+export const classNamesMyComponent: TClassNamesMyComponent = (className) => classNames(className);

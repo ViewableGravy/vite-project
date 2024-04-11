@@ -11,3 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - classname library dependency
 - react library dependency
+
+### Changed
+
+- Updated the github repo link in the package.json
+- Updated ReadMe to be more explicit in what this library provides
