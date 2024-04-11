@@ -57,11 +57,18 @@ Because our helper function is typed based on the file, we get intellisense for 
 
 One extra benefit that we get from this approach is that changes to an scss file will propagate the types to the typescript components, meaning that we will instantly get a typescript error if we attempt to remove a className that is in use by an element. In larger code, over larger periods of time, this becomes extremely useful as it helps ensure that modifications to the styling will not trigger unwanted side effects.
 
+Note: While the helpers are named based on the file name, this may be too long for practical use in a file. It is not an uncommon pattern to consider renaming the import as something more generic within the file. For example, if this is the typescript file that correlates directly with a particular scss file, you could do the following:
+```ts
+import { styleSomeReallyComplicateComponentName as styler } from 'someReallyComplicateComponentName.autogen.ts'
+
+const MyComponent = () => {
+  const example = styler({ '--background-color': ... })
+}
+```
+
 ## Expected Features
 
 1. Customization
 I am looking at updating this package in the near future with more customization, this includes file naming formats, exclusion directories, etc. One thing I have encountered so far is conflicts with tools like TanstackRouter and NextJS, where the files are used to generate route files, and with this tool, conflicts can occur, so tackling these issues will be first on the list
-2. Extra Helpers
-At a minimum, I would like to provide two functions, one for styles and one for classNames. I think this is beneficial because the classNames being typed in typescript is very useful, but having the extra style functionality seems unnecessary
-3. Anything Else
+2. Anything Else
 This is a small package, that aimed at making my life easier in my personal projects, I don't expect it to change the world, but if you have any suggestions that fit within the scope of this library, let me know and I can consider it. Feel free to contact me at contact@gravy.cc and I'll get back to you
